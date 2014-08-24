@@ -1,4 +1,5 @@
 package de.hahn.blog.consoleformatter.logger;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -20,9 +21,7 @@ import java.util.logging.SimpleFormatter;
  *       #setOptionen(String aOptionen) setOptionen} Information in {} are printed if available
  * @author Timo Hahn
  */
-public class DebugFormatter
-    extends SimpleFormatter
-{
+public class DebugFormatter extends SimpleFormatter {
     //~ Instanzenvariablen -----------------------------------------------------
 
     /**
@@ -70,8 +69,7 @@ public class DebugFormatter
     /**
      * C'tor
      */
-    public DebugFormatter()
-    {
+    public DebugFormatter() {
         super();
         mDateFromatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     }
@@ -88,8 +86,7 @@ public class DebugFormatter
      *
      * @return log record formatted as String
      */
-    public String format(LogRecord record)
-    {
+    public String format(LogRecord record) {
 
         StringBuffer sb = new StringBuffer();
 
@@ -100,59 +97,46 @@ public class DebugFormatter
         Date d = new Date(time);
         mCalendar.setTime(d);
         sb.append(mDateFromatter.format(mCalendar.getTime()));
-        if (mShowLine)
-        {
+        if (mShowLine) {
             String stack = null;
             StackTraceElement ste = null;
-            if (record.getThrown() != null)
-            {
-                ste = getStackTraceElement(new Exception("test"), 5);
-            }
-            else
-            {
+            if (record.getThrown() != null) {
                 ste = getStackTraceElement(new Exception("test"), 6);
+            } else {
+                ste = getStackTraceElement(new Exception("test"), 7);
             }
 
             sb.append(" - ");
             sb.append(ste.toString());
         }
 
-        if (mShowThreadID)
-        {
+        if (mShowThreadID) {
             sb.append(" - ");
             sb.append(record.getThreadID());
         }
 
-        if (mShowName)
-        {
+        if (mShowName) {
             sb.append(" - ");
             sb.append(record.getLoggerName());
         }
 
 
-        if (mShowClass && !mShowLine)
-        {
+        if (mShowClass && !mShowLine) {
             sb.append(" - ");
             sb.append(record.getSourceClassName());
         }
 
-        if (mShowMethod && !mShowLine)
-        {
+        if (mShowMethod && !mShowLine) {
             sb.append(" - ");
             sb.append(record.getSourceMethodName());
         }
-        if (false)
-        {
-            if (mShowLine)
-            {
+        if (false) {
+            if (mShowLine) {
                 String stack = null;
                 StackTraceElement ste = null;
-                if (record.getThrown() != null)
-                {
+                if (record.getThrown() != null) {
                     ste = getStackTraceElement(new Exception("test"), 5);
-                }
-                else
-                {
+                } else {
                     ste = getStackTraceElement(new Exception("test"), 6);
                 }
                 //            sb.append(" - (Line:");
@@ -167,8 +151,7 @@ public class DebugFormatter
         sb.append(record.getMessage());
 
         Throwable t = record.getThrown();
-        if (t != null)
-        {
+        if (t != null) {
             sb.append(" - Thrown: ");
             sb.append(t.getMessage());
         }
@@ -185,16 +168,12 @@ public class DebugFormatter
      *
      * @return Java-file and  linenumber of the caller
      */
-    private String getCallingLine(String stack)
-    {
+    private String getCallingLine(String stack) {
         String aCaller = "";
-        try
-        {
+        try {
             String lines[] = stack.split("\n", 10);
             aCaller = lines[8].substring(lines[8].indexOf("("));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             aCaller = "(---)";
             ;
         }
@@ -209,8 +188,7 @@ public class DebugFormatter
      *
      * @return String of hte stack trace
      */
-    public static String getStackTrace(Throwable t)
-    {
+    public static String getStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw, true);
         t.printStackTrace(pw);
@@ -222,13 +200,12 @@ public class DebugFormatter
 
     /**
      * Return a stack strace element
-     * 
+     *
      * @param t Exception, aNum detpth of the element
      *
      * @return StackTraceElement of depth aNum
      */
-    public static StackTraceElement getStackTraceElement(Throwable t, int aNum)
-    {
+    public static StackTraceElement getStackTraceElement(Throwable t, int aNum) {
         StackTraceElement[] stack = t.getStackTrace();
         if (stack.length >= aNum)
             return stack[aNum];
@@ -260,10 +237,8 @@ public class DebugFormatter
      *
      * @param aOptionen options to print for each log message
      */
-    public void setOptionen(String aOptionen)
-    {
-        if (aOptionen == null)
-        {
+    public void setOptionen(String aOptionen) {
+        if (aOptionen == null) {
             return;
         }
 
